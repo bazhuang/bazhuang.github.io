@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>ConcurrentHashMap在1.7和1.8下的不同实现 | 陈寄文的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="ConcurrentHashMap
+转载自http://www.jianshu.com/p/e694f1e868ec
+
+在多线程环境下，使用HashMap进行put操作时存在丢失数据的情况，为了避免这种bug的隐患，强烈建议使用ConcurrentHashMap代替HashMap，为了对ConcurrentHashMap有更深入的了解，本文将对ConcurrentHashMap1.7和1.8的不同">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ConcurrentHashMap在1.7和1.8下的不同实现">
+<meta property="og:url" content="http://bazhuang.github.io/2017/03/21/ConcurrentHashMap-compare/index.html">
+<meta property="og:site_name" content="陈寄文的技术博客">
+<meta property="og:description" content="ConcurrentHashMap
+转载自http://www.jianshu.com/p/e694f1e868ec
+
+在多线程环境下，使用HashMap进行put操作时存在丢失数据的情况，为了避免这种bug的隐患，强烈建议使用ConcurrentHashMap代替HashMap，为了对ConcurrentHashMap有更深入的了解，本文将对ConcurrentHashMap1.7和1.8的不同">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2184951-af57d9d50ae9f547.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2184951-d9933a0302f72d47.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-03-21T06:43:21.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ConcurrentHashMap在1.7和1.8下的不同实现">
+<meta name="twitter:description" content="ConcurrentHashMap
+转载自http://www.jianshu.com/p/e694f1e868ec
+
+在多线程环境下，使用HashMap进行put操作时存在丢失数据的情况，为了避免这种bug的隐患，强烈建议使用ConcurrentHashMap代替HashMap，为了对ConcurrentHashMap有更深入的了解，本文将对ConcurrentHashMap1.7和1.8的不同">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/2184951-af57d9d50ae9f547.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+    <link rel="alternate" href="/atom.xml" title="陈寄文的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">陈寄文的技术博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">一个码农的心得体会--人世沧桑，心已经疲倦</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://bazhuang.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-ConcurrentHashMap-compare" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/03/21/ConcurrentHashMap-compare/" class="article-date">
+  <time datetime="2017-03-21T14:11:06.000Z" itemprop="datePublished">2017-03-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ConcurrentHashMap在1.7和1.8下的不同实现
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="ConcurrentHashMap"><a href="#ConcurrentHashMap" class="headerlink" title="ConcurrentHashMap"></a>ConcurrentHashMap</h2><ul>
+<li>转载自<a href="http://www.jianshu.com/p/e694f1e868ec" target="_blank" rel="external">http://www.jianshu.com/p/e694f1e868ec</a></li>
+</ul>
+<p>在多线程环境下，使用<code>HashMap</code>进行<code>put</code>操作时存在丢失数据的情况，为了避免这种bug的隐患，强烈建议使用<code>ConcurrentHashMap</code>代替<code>HashMap</code>，为了对<code>ConcurrentHashMap</code>有更深入的了解，本文将对<code>ConcurrentHashMap</code>1.7和1.8的不同实现进行分析。</p>
+<h3 id="1-7-实现"><a href="#1-7-实现" class="headerlink" title="1.7 实现"></a>1.7 实现</h3><h4 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h4><p>jdk1.7中采用<code>Segment</code> + <code>HashEntry</code>的方式进行实现，结构如下：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2184951-af57d9d50ae9f547.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="http://upload-images.jianshu.io/upload_images/2184951-af57d9d50ae9f547.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<p><code>ConcurrentHashMap</code>初始化时，计算出<code>Segment</code>数组的大小<code>ssize</code>和每个<code>Segment</code>中<code>HashEntry</code>数组的大小<code>cap</code>，并初始化<code>Segment</code>数组的第一个元素；其中<code>ssize</code>大小为2的幂次方，默认为16，<code>cap</code>大小也是2的幂次方，最小值为2，最终结果根据根据初始化容量<code>initialCapacity</code>进行计算，计算过程如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (c * ssize &amp;lt; initialCapacity)</span><br><span class="line">    ++c;</span><br><span class="line"><span class="keyword">int</span> cap = MIN_SEGMENT_TABLE_CAPACITY;</span><br><span class="line"><span class="keyword">while</span> (cap &amp;lt; c)</span><br><span class="line">    cap &amp;lt;&amp;lt;= <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<p>其中<code>Segment</code>在实现上继承了<code>ReentrantLock</code>，这样就自带了锁的功能。</p><br><h4>put实现</h4><br><p>当执行<code>put</code>方法插入数据时，根据key的hash值，在<code>Segment</code>数组中找到相应的位置，如果相应位置的<code>Segment</code>还未初始化，则通过CAS进行赋值，接着执行<code>Segment</code>对象的<code>put</code>方法通过加锁机制插入数据，实现如下：</p><br><p>场景：线程A和线程B同时执行相同<code>Segment</code>对象的<code>put</code>方法</p><br><p>1、线程A执行<code>tryLock()</code>方法成功获取锁，则把<code>HashEntry</code>对象插入到相应的位置；<br>2、线程B获取锁失败，则执行<code>scanAndLockForPut()</code>方法，在<code>scanAndLockForPut</code>方法中，会通过重复执行<code>tryLock()</code>方法尝试获取锁，在多处理器环境下，重复次数为64，单处理器重复次数为1，当执行<code>tryLock()</code>方法的次数超过上限时，则执行<code>lock()</code>方法挂起线程B；<br>3、当线程A执行完插入操作时，会通过<code>unlock()</code>方法释放锁，接着唤醒线程B继续执行；</p><br><h4>size实现</h4><br><p>因为<code>ConcurrentHashMap</code>是可以并发插入数据的，所以在准确计算元素时存在一定的难度，一般的思路是统计每个<code>Segment</code>对象中的元素个数，然后进行累加，但是这种方式计算出来的结果并不一样的准确的，因为在计算后面几个<code>Segment</code>的元素个数时，已经计算过的<code>Segment</code>同时可能有数据的插入或则删除，在1.7的实现中，采用了如下方式：</p><br><pre><code>try {<br>    for (;;) {<br>        if (retries++ == RETRIES_BEFORE_LOCK) {<br>            for (int j = 0; j &lt; segments.length; ++j)<br>                ensureSegment(j).lock(); // force creation<br>        }<br>        sum = 0L;<br>        size = 0;<br>        overflow = false;<br>        for (int j = 0; j &lt; segments.length; ++j) {<br>            Segment&lt;K,V&gt; seg = segmentAt(segments, j);<br>            if (seg != null) {<br>                sum += seg.modCount;<br>                int c = seg.count;<br>                if (c &lt; 0 || (size += c) &lt; 0)<br>                    overflow = true;<br>            }<br>        }<br>        if (sum == last)<br>            break;<br>        last = sum;<br>    }<br>} finally {<br>    if (retries &gt; RETRIES_BEFORE_LOCK) {<br>        for (int j = 0; j &lt; segments.length; ++j)<br>            segmentAt(segments, j).unlock();<br>    }<br>}</code></pre><br><p>先采用不加锁的方式，连续计算元素的个数，最多计算3次：<br>1、如果前后两次计算结果相同，则说明计算出来的元素个数是准确的；<br>2、如果前后两次计算结果都不同，则给每个<code>Segment</code>进行加锁，再计算一次元素的个数；</p><br><h3>1.8实现</h3><br><h4>数据结构</h4><br><p>1.8中放弃了<code>Segment</code>臃肿的设计，取而代之的是采用<code>Node</code> + <code>CAS</code> + <code>Synchronized</code>来保证并发安全进行实现，结构如下：</p><br><div class="image-package"><br><img src="http://upload-images.jianshu.io/upload_images/2184951-d9933a0302f72d47.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" data-original-src="http://upload-images.jianshu.io/upload_images/2184951-d9933a0302f72d47.png?imageMogr2/auto-orient/strip%7CimageView2/2"><br><div class="image-caption"></div><br></div><br><p>只有在执行第一次<code>put</code>方法时才会调用<code>initTable()</code>初始化<code>Node</code>数组，实现如下：</p><br><pre><code>private final Node&lt;K,V&gt;[] initTable() {<br>    Node&lt;K,V&gt;[] tab; int sc;<br>    while ((tab = table) == null || tab.length == 0) {<br>        if ((sc = sizeCtl) &lt; 0)<br>            Thread.yield(); // lost initialization race; just spin<br>        else if (U.compareAndSwapInt(this, SIZECTL, sc, -1)) {<br>            try {<br>                if ((tab = table) == null || tab.length == 0) {<br>                    int n = (sc &gt; 0) ? sc : DEFAULT_CAPACITY;<br>                    @SuppressWarnings(“unchecked”)<br>                    Node&lt;K,V&gt;[] nt = (Node&lt;K,V&gt;[])new Node&lt;?,?&gt;[n];<br>                    table = tab = nt;<br>                    sc = n - (n &gt;&gt;&gt; 2);<br>                }<br>            } finally {<br>                sizeCtl = sc;<br>            }<br>            break;<br>        }<br>    }<br>    return tab;<br>}</code></pre><br><h4>put实现</h4><br><p>当执行<code>put</code>方法插入数据时，根据key的hash值，在<code>Node</code>数组中找到相应的位置，实现如下：</p><br><p>1、如果相应位置的<code>Node</code>还未初始化，则通过CAS插入相应的数据；</p><br><pre><code>else if ((f = tabAt(tab, i = (n - 1) &amp; hash)) == null) {<br>    if (casTabAt(tab, i, null, new Node&lt;K,V&gt;(hash, key, value, null)))<br>        break;                   // no lock when adding to empty bin<br>}</code></pre><br><p>2、如果相应位置的<code>Node</code>不为空，且当前该节点不处于移动状态，则对该节点加<code>synchronized</code>锁，如果该节点的<code>hash</code>不小于0，则遍历链表更新节点或插入新节点；</p><br><pre><code>if (fh &gt;= 0) {<br>    binCount = 1;<br>    for (Node&lt;K,V&gt; e = f;; ++binCount) {<br>        K ek;<br>        if (e.hash == hash &amp;&amp;<br>            ((ek = e.key) == key ||<br>             (ek != null &amp;&amp; key.equals(ek)))) {<br>            oldVal = e.val;<br>            if (!onlyIfAbsent)<br>                e.val = value;<br>            break;<br>        }<br>        Node&lt;K,V&gt; pred = e;<br>        if ((e = e.next) == null) {<br>            pred.next = new Node&lt;K,V&gt;(hash, key, value, null);<br>            break;<br>        }<br>    }<br>}</code></pre><br><p>3、如果该节点是<code>TreeBin</code>类型的节点，说明是红黑树结构，则通过<code>putTreeVal</code>方法往红黑树中插入节点；</p><br><pre><code>else if (f instanceof TreeBin) {<br>    Node&lt;K,V&gt; p;<br>    binCount = 2;<br>    if ((p = ((TreeBin&lt;K,V&gt;)f).putTreeVal(hash, key, value)) != null) {<br>        oldVal = p.val;<br>        if (!onlyIfAbsent)<br>            p.val = value;<br>    }<br>}</code></pre><br><p>4、如果<code>binCount</code>不为0，说明<code>put</code>操作对数据产生了影响，如果当前链表的个数达到8个，则通过<code>treeifyBin</code>方法转化为红黑树，如果<code>oldVal</code>不为空，说明是一次更新操作，没有对元素个数产生影响，则直接返回旧值；</p><br><pre><code>if (binCount != 0) {<br>    if (binCount &gt;= TREEIFY_THRESHOLD)<br>        treeifyBin(tab, i);<br>    if (oldVal != null)<br>        return oldVal;<br>    break;<br>}</code></pre><br><p>5、如果插入的是一个新节点，则执行<code>addCount()</code>方法尝试更新元素个数<code>baseCount</code>；</p><br><h4>size实现</h4><br><p>1.8中使用一个<code>volatile</code>类型的变量<code>baseCount</code>记录元素的个数，当插入新数据或则删除数据时，会通过<code>addCount()</code>方法更新<code>baseCount</code>，实现如下：</p><br><pre><code>if ((as = counterCells) != null ||<br>    !U.compareAndSwapLong(this, BASECOUNT, b = baseCount, s = b + x)) {<br>    CounterCell a; long v; int m;<br>    boolean uncontended = true;<br>    if (as == null || (m = as.length - 1) &lt; 0 ||<br>        (a = as[ThreadLocalRandom.getProbe() &amp; m]) == null ||<br>        !(uncontended =<br>          U.compareAndSwapLong(a, CELLVALUE, v = a.value, v + x))) {<br>        fullAddCount(x, uncontended);<br>        return;<br>    }<br>    if (check &lt;= 1)<br>        return;<br>    s = sumCount();<br>}</code></pre><br><p>1、初始化时<code>counterCells</code>为空，在并发量很高时，如果存在两个线程同时执行<code>CAS</code>修改<code>baseCount</code>值，则失败的线程会继续执行方法体中的逻辑，使用<code>CounterCell</code>记录元素个数的变化；</p><br><p>2、如果<code>CounterCell</code>数组<code>counterCells</code>为空，调用<code>fullAddCount()</code>方法进行初始化，并插入对应的记录数，通过<code>CAS</code>设置cellsBusy字段，只有设置成功的线程才能初始化<code>CounterCell</code>数组，实现如下：</p><br><pre><code>else if (cellsBusy == 0 &amp;&amp; counterCells == as &amp;&amp;<br>         U.compareAndSwapInt(this, CELLSBUSY, 0, 1)) {<br>    boolean init = false;<br>    try {                           // Initialize table<br>        if (counterCells == as) {<br>            CounterCell[] rs = new CounterCell[2];<br>            rs[h &amp; 1] = new CounterCell(x);<br>            counterCells = rs;<br>            init = true;<br>        }<br>    } finally {<br>        cellsBusy = 0;<br>    }<br>    if (init)<br>        break;<br>}</code></pre><br><p>3、如果通过<code>CAS</code>设置cellsBusy字段失败的话，则继续尝试通过<code>CAS</code>修改<code>baseCount</code>字段，如果修改<code>baseCount</code>字段成功的话，就退出循环，否则继续循环插入<code>CounterCell</code>对象；</p><br><pre><code>else if (U.compareAndSwapLong(this, BASECOUNT, v = baseCount, v + x))<br>    break;</code></pre><br><p>所以在1.8中的<code>size</code>实现比1.7简单多，因为元素个数保存<code>baseCount</code>中，部分元素的变化个数保存在<code>CounterCell</code>数组中，实现如下：</p><br><pre><code>public int size() {<br>    long n = sumCount();<br>    return ((n &lt; 0L) ? 0 :<br>            (n &gt; (long)Integer.MAX_VALUE) ? Integer.MAX_VALUE :<br>            (int)n);<br>}<br><br>final long sumCount() {<br>    CounterCell[] as = counterCells; CounterCell a;<br>    long sum = baseCount;<br>    if (as != null) {<br>        for (int i = 0; i &lt; as.length; ++i) {<br>            if ((a = as[i]) != null)<br>                sum += a.value;<br>        }<br>    }<br>    return sum;<br>}</code></pre><br><p>通过累加<code>baseCount</code>和<code>CounterCell</code>数组中的数量，即可得到元素的总个数。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://bazhuang.github.io/2017/03/21/ConcurrentHashMap-compare/" data-id="cjm9c3jvp0000dxwvsyhwd66t" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/04/18/atom_install_package/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/05/05/hexo-build-github-blog/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">利用hexo搭建github个人博客</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/04/18/atom_install_package/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/21/ConcurrentHashMap-compare/">ConcurrentHashMap在1.7和1.8下的不同实现</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/05/hexo-build-github-blog/">利用hexo搭建github个人博客</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/05/clean_chrome_hsts_cache/">清除 chrome 的 HSTS 307 缓存</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 chenjw<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>陈寄文的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="人世沧桑，心已经疲倦">
+<meta property="og:type" content="website">
+<meta property="og:title" content="陈寄文的技术博客">
+<meta property="og:url" content="http://bazhuang.github.io/index.html">
+<meta property="og:site_name" content="陈寄文的技术博客">
+<meta property="og:description" content="人世沧桑，心已经疲倦">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="陈寄文的技术博客">
+<meta name="twitter:description" content="人世沧桑，心已经疲倦">
+  
+    <link rel="alternate" href="/atom.xml" title="陈寄文的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">陈寄文的技术博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">一个码农的心得体会--人世沧桑，心已经疲倦</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://bazhuang.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-atom_install_package" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/04/18/atom_install_package/" class="article-date">
+  <time datetime="2017-04-18T10:37:30.000Z" itemprop="datePublished">2017-04-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="atom中如何安装插件"><a href="#atom中如何安装插件" class="headerlink" title="atom中如何安装插件"></a>atom中如何安装插件</h1><h2 id="困难"><a href="#困难" class="headerlink" title="困难"></a>困难</h2><p>通过直接方式安装插件，很难安装成功，总是会出现错误。错误的内容大体如下：<br><img src="https://cloud.githubusercontent.com/assets/606885/8377638/25167af2-1c13-11e5-9d49-e307f88ffba7.png" alt="错误提示"></p>
+<p>归根结底都是由于连接不上atom.io服务器造成的。</p>
+<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p>解决办法可以有2个：</p>
+<h3 id="（1）-配置apm镜像"><a href="#（1）-配置apm镜像" class="headerlink" title="（1） 配置apm镜像"></a>（1） 配置apm镜像</h3><p>在我们的当前用户目录下找到.atom目录，找到里面的.apmrc文件，如果没有的话就新建一个。</p>
+<p>里面的内容填上<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">registry = https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure></p>
+<p>使用淘宝提供的npm镜像地址，然后通过命令apm install <em>*</em> 安装插件。或者在atom里面安装也可以。</p>
+<p><img src="assets/markdown-img-paste-20170418175646333.png" alt=""></p>
+<h3 id="（2）配置代理"><a href="#（2）配置代理" class="headerlink" title="（2）配置代理"></a>（2）配置代理</h3><p>我这里使用的是shadowsocks，配置的话同样是~/.atom/.apmrc这个文件。里面配置的格式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http_proxy = socks5://127.0.0.1:1080</span><br><span class="line">https_proxy = socks5://127.0.0.1:1080</span><br></pre></td></tr></table></figure>
+<p>具体是使用哪种代理方式就看大家选择的软件了。</p>
+<p>我自己这里使用的是第一种方式，方便快捷。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://bazhuang.github.io/2017/04/18/atom_install_package/" data-id="cjm9c3jvv0001dxwvy4v6gsch" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-ConcurrentHashMap-compare" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/03/21/ConcurrentHashMap-compare/" class="article-date">
+  <time datetime="2017-03-21T14:11:06.000Z" itemprop="datePublished">2017-03-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/21/ConcurrentHashMap-compare/">ConcurrentHashMap在1.7和1.8下的不同实现</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="ConcurrentHashMap"><a href="#ConcurrentHashMap" class="headerlink" title="ConcurrentHashMap"></a>ConcurrentHashMap</h2><ul>
+<li>转载自<a href="http://www.jianshu.com/p/e694f1e868ec" target="_blank" rel="external">http://www.jianshu.com/p/e694f1e868ec</a></li>
+</ul>
+<p>在多线程环境下，使用<code>HashMap</code>进行<code>put</code>操作时存在丢失数据的情况，为了避免这种bug的隐患，强烈建议使用<code>ConcurrentHashMap</code>代替<code>HashMap</code>，为了对<code>ConcurrentHashMap</code>有更深入的了解，本文将对<code>ConcurrentHashMap</code>1.7和1.8的不同实现进行分析。</p>
+<h3 id="1-7-实现"><a href="#1-7-实现" class="headerlink" title="1.7 实现"></a>1.7 实现</h3><h4 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h4><p>jdk1.7中采用<code>Segment</code> + <code>HashEntry</code>的方式进行实现，结构如下：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/2184951-af57d9d50ae9f547.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="http://upload-images.jianshu.io/upload_images/2184951-af57d9d50ae9f547.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<p><code>ConcurrentHashMap</code>初始化时，计算出<code>Segment</code>数组的大小<code>ssize</code>和每个<code>Segment</code>中<code>HashEntry</code>数组的大小<code>cap</code>，并初始化<code>Segment</code>数组的第一个元素；其中<code>ssize</code>大小为2的幂次方，默认为16，<code>cap</code>大小也是2的幂次方，最小值为2，最终结果根据根据初始化容量<code>initialCapacity</code>进行计算，计算过程如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (c * ssize &amp;lt; initialCapacity)</span><br><span class="line">    ++c;</span><br><span class="line"><span class="keyword">int</span> cap = MIN_SEGMENT_TABLE_CAPACITY;</span><br><span class="line"><span class="keyword">while</span> (cap &amp;lt; c)</span><br><span class="line">    cap &amp;lt;&amp;lt;= <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<p>其中<code>Segment</code>在实现上继承了<code>ReentrantLock</code>，这样就自带了锁的功能。</p><br><h4>put实现</h4><br><p>当执行<code>put</code>方法插入数据时，根据key的hash值，在<code>Segment</code>数组中找到相应的位置，如果相应位置的<code>Segment</code>还未初始化，则通过CAS进行赋值，接着执行<code>Segment</code>对象的<code>put</code>方法通过加锁机制插入数据，实现如下：</p><br><p>场景：线程A和线程B同时执行相同<code>Segment</code>对象的<code>put</code>方法</p><br><p>1、线程A执行<code>tryLock()</code>方法成功获取锁，则把<code>HashEntry</code>对象插入到相应的位置；<br>2、线程B获取锁失败，则执行<code>scanAndLockForPut()</code>方法，在<code>scanAndLockForPut</code>方法中，会通过重复执行<code>tryLock()</code>方法尝试获取锁，在多处理器环境下，重复次数为64，单处理器重复次数为1，当执行<code>tryLock()</code>方法的次数超过上限时，则执行<code>lock()</code>方法挂起线程B；<br>3、当线程A执行完插入操作时，会通过<code>unlock()</code>方法释放锁，接着唤醒线程B继续执行；</p><br><h4>size实现</h4><br><p>因为<code>ConcurrentHashMap</code>是可以并发插入数据的，所以在准确计算元素时存在一定的难度，一般的思路是统计每个<code>Segment</code>对象中的元素个数，然后进行累加，但是这种方式计算出来的结果并不一样的准确的，因为在计算后面几个<code>Segment</code>的元素个数时，已经计算过的<code>Segment</code>同时可能有数据的插入或则删除，在1.7的实现中，采用了如下方式：</p><br><pre><code>try {<br>    for (;;) {<br>        if (retries++ == RETRIES_BEFORE_LOCK) {<br>            for (int j = 0; j &lt; segments.length; ++j)<br>                ensureSegment(j).lock(); // force creation<br>        }<br>        sum = 0L;<br>        size = 0;<br>        overflow = false;<br>        for (int j = 0; j &lt; segments.length; ++j) {<br>            Segment&lt;K,V&gt; seg = segmentAt(segments, j);<br>            if (seg != null) {<br>                sum += seg.modCount;<br>                int c = seg.count;<br>                if (c &lt; 0 || (size += c) &lt; 0)<br>                    overflow = true;<br>            }<br>        }<br>        if (sum == last)<br>            break;<br>        last = sum;<br>    }<br>} finally {<br>    if (retries &gt; RETRIES_BEFORE_LOCK) {<br>        for (int j = 0; j &lt; segments.length; ++j)<br>            segmentAt(segments, j).unlock();<br>    }<br>}</code></pre><br><p>先采用不加锁的方式，连续计算元素的个数，最多计算3次：<br>1、如果前后两次计算结果相同，则说明计算出来的元素个数是准确的；<br>2、如果前后两次计算结果都不同，则给每个<code>Segment</code>进行加锁，再计算一次元素的个数；</p><br><h3>1.8实现</h3><br><h4>数据结构</h4><br><p>1.8中放弃了<code>Segment</code>臃肿的设计，取而代之的是采用<code>Node</code> + <code>CAS</code> + <code>Synchronized</code>来保证并发安全进行实现，结构如下：</p><br><div class="image-package"><br><img src="http://upload-images.jianshu.io/upload_images/2184951-d9933a0302f72d47.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" data-original-src="http://upload-images.jianshu.io/upload_images/2184951-d9933a0302f72d47.png?imageMogr2/auto-orient/strip%7CimageView2/2"><br><div class="image-caption"></div><br></div><br><p>只有在执行第一次<code>put</code>方法时才会调用<code>initTable()</code>初始化<code>Node</code>数组，实现如下：</p><br><pre><code>private final Node&lt;K,V&gt;[] initTable() {<br>    Node&lt;K,V&gt;[] tab; int sc;<br>    while ((tab = table) == null || tab.length == 0) {<br>        if ((sc = sizeCtl) &lt; 0)<br>            Thread.yield(); // lost initialization race; just spin<br>        else if (U.compareAndSwapInt(this, SIZECTL, sc, -1)) {<br>            try {<br>                if ((tab = table) == null || tab.length == 0) {<br>                    int n = (sc &gt; 0) ? sc : DEFAULT_CAPACITY;<br>                    @SuppressWarnings(“unchecked”)<br>                    Node&lt;K,V&gt;[] nt = (Node&lt;K,V&gt;[])new Node&lt;?,?&gt;[n];<br>                    table = tab = nt;<br>                    sc = n - (n &gt;&gt;&gt; 2);<br>                }<br>            } finally {<br>                sizeCtl = sc;<br>            }<br>            break;<br>        }<br>    }<br>    return tab;<br>}</code></pre><br><h4>put实现</h4><br><p>当执行<code>put</code>方法插入数据时，根据key的hash值，在<code>Node</code>数组中找到相应的位置，实现如下：</p><br><p>1、如果相应位置的<code>Node</code>还未初始化，则通过CAS插入相应的数据；</p><br><pre><code>else if ((f = tabAt(tab, i = (n - 1) &amp; hash)) == null) {<br>    if (casTabAt(tab, i, null, new Node&lt;K,V&gt;(hash, key, value, null)))<br>        break;                   // no lock when adding to empty bin<br>}</code></pre><br><p>2、如果相应位置的<code>Node</code>不为空，且当前该节点不处于移动状态，则对该节点加<code>synchronized</code>锁，如果该节点的<code>hash</code>不小于0，则遍历链表更新节点或插入新节点；</p><br><pre><code>if (fh &gt;= 0) {<br>    binCount = 1;<br>    for (Node&lt;K,V&gt; e = f;; ++binCount) {<br>        K ek;<br>        if (e.hash == hash &amp;&amp;<br>            ((ek = e.key) == key ||<br>             (ek != null &amp;&amp; key.equals(ek)))) {<br>            oldVal = e.val;<br>            if (!onlyIfAbsent)<br>                e.val = value;<br>            break;<br>        }<br>        Node&lt;K,V&gt; pred = e;<br>        if ((e = e.next) == null) {<br>            pred.next = new Node&lt;K,V&gt;(hash, key, value, null);<br>            break;<br>        }<br>    }<br>}</code></pre><br><p>3、如果该节点是<code>TreeBin</code>类型的节点，说明是红黑树结构，则通过<code>putTreeVal</code>方法往红黑树中插入节点；</p><br><pre><code>else if (f instanceof TreeBin) {<br>    Node&lt;K,V&gt; p;<br>    binCount = 2;<br>    if ((p = ((TreeBin&lt;K,V&gt;)f).putTreeVal(hash, key, value)) != null) {<br>        oldVal = p.val;<br>        if (!onlyIfAbsent)<br>            p.val = value;<br>    }<br>}</code></pre><br><p>4、如果<code>binCount</code>不为0，说明<code>put</code>操作对数据产生了影响，如果当前链表的个数达到8个，则通过<code>treeifyBin</code>方法转化为红黑树，如果<code>oldVal</code>不为空，说明是一次更新操作，没有对元素个数产生影响，则直接返回旧值；</p><br><pre><code>if (binCount != 0) {<br>    if (binCount &gt;= TREEIFY_THRESHOLD)<br>        treeifyBin(tab, i);<br>    if (oldVal != null)<br>        return oldVal;<br>    break;<br>}</code></pre><br><p>5、如果插入的是一个新节点，则执行<code>addCount()</code>方法尝试更新元素个数<code>baseCount</code>；</p><br><h4>size实现</h4><br><p>1.8中使用一个<code>volatile</code>类型的变量<code>baseCount</code>记录元素的个数，当插入新数据或则删除数据时，会通过<code>addCount()</code>方法更新<code>baseCount</code>，实现如下：</p><br><pre><code>if ((as = counterCells) != null ||<br>    !U.compareAndSwapLong(this, BASECOUNT, b = baseCount, s = b + x)) {<br>    CounterCell a; long v; int m;<br>    boolean uncontended = true;<br>    if (as == null || (m = as.length - 1) &lt; 0 ||<br>        (a = as[ThreadLocalRandom.getProbe() &amp; m]) == null ||<br>        !(uncontended =<br>          U.compareAndSwapLong(a, CELLVALUE, v = a.value, v + x))) {<br>        fullAddCount(x, uncontended);<br>        return;<br>    }<br>    if (check &lt;= 1)<br>        return;<br>    s = sumCount();<br>}</code></pre><br><p>1、初始化时<code>counterCells</code>为空，在并发量很高时，如果存在两个线程同时执行<code>CAS</code>修改<code>baseCount</code>值，则失败的线程会继续执行方法体中的逻辑，使用<code>CounterCell</code>记录元素个数的变化；</p><br><p>2、如果<code>CounterCell</code>数组<code>counterCells</code>为空，调用<code>fullAddCount()</code>方法进行初始化，并插入对应的记录数，通过<code>CAS</code>设置cellsBusy字段，只有设置成功的线程才能初始化<code>CounterCell</code>数组，实现如下：</p><br><pre><code>else if (cellsBusy == 0 &amp;&amp; counterCells == as &amp;&amp;<br>         U.compareAndSwapInt(this, CELLSBUSY, 0, 1)) {<br>    boolean init = false;<br>    try {                           // Initialize table<br>        if (counterCells == as) {<br>            CounterCell[] rs = new CounterCell[2];<br>            rs[h &amp; 1] = new CounterCell(x);<br>            counterCells = rs;<br>            init = true;<br>        }<br>    } finally {<br>        cellsBusy = 0;<br>    }<br>    if (init)<br>        break;<br>}</code></pre><br><p>3、如果通过<code>CAS</code>设置cellsBusy字段失败的话，则继续尝试通过<code>CAS</code>修改<code>baseCount</code>字段，如果修改<code>baseCount</code>字段成功的话，就退出循环，否则继续循环插入<code>CounterCell</code>对象；</p><br><pre><code>else if (U.compareAndSwapLong(this, BASECOUNT, v = baseCount, v + x))<br>    break;</code></pre><br><p>所以在1.8中的<code>size</code>实现比1.7简单多，因为元素个数保存<code>baseCount</code>中，部分元素的变化个数保存在<code>CounterCell</code>数组中，实现如下：</p><br><pre><code>public int size() {<br>    long n = sumCount();<br>    return ((n &lt; 0L) ? 0 :<br>            (n &gt; (long)Integer.MAX_VALUE) ? Integer.MAX_VALUE :<br>            (int)n);<br>}<br><br>final long sumCount() {<br>    CounterCell[] as = counterCells; CounterCell a;<br>    long sum = baseCount;<br>    if (as != null) {<br>        for (int i = 0; i &lt; as.length; ++i) {<br>            if ((a = as[i]) != null)<br>                sum += a.value;<br>        }<br>    }<br>    return sum;<br>}</code></pre><br><p>通过累加<code>baseCount</code>和<code>CounterCell</code>数组中的数量，即可得到元素的总个数。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://bazhuang.github.io/2017/03/21/ConcurrentHashMap-compare/" data-id="cjm9c3jvp0000dxwvsyhwd66t" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-hexo-build-github-blog" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/05/05/hexo-build-github-blog/" class="article-date">
+  <time datetime="2016-05-05T15:24:31.000Z" itemprop="datePublished">2016-05-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/05/05/hexo-build-github-blog/">利用hexo搭建github个人博客</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>作为开发人员，一般都会有自己的github账号。本人技术水平一般，没有什么代码可以贡献，比较懒也没有参与哪些开源项目。感谢那些大牛，给大家贡献了那么多丰富的开源项目。</p>
+<p>github还提供了免费的个人博客，而且空间是免费不限大小的，实在是太开心了。WordPress要自己搭建还是有点复杂。</p>
+<h3 id="1、站点初始化"><a href="#1、站点初始化" class="headerlink" title="1、站点初始化"></a>1、站点初始化</h3><p>下面就介绍一下如何方便快捷的搭建一个个人博客：</p>
+<h4 id="（1）申请一个新的repository"><a href="#（1）申请一个新的repository" class="headerlink" title="（1）申请一个新的repository"></a>（1）申请一个新的repository</h4><p><a href="https://github.com/new" target="_blank" rel="external">https://github.com/new</a>，通过这个地址创建一个带有github.io地址的仓库。我的账号是buzhuang，所以我创建的就是bazhuang.github.io，到时候访问的时候就是<a href="http://bazhuang.github.io">bazhuang.github.io</a></p>
+<h4 id="2-设置仓库"><a href="#2-设置仓库" class="headerlink" title="(2) 设置仓库"></a>(2) 设置仓库</h4><p>找到刚才的仓库，进入settings界面，找到下面的如下区块：<br><img src="http://img2.tbcdn.cn/L1/461/1/736bf2ebd82f7aa8ca79281cefdc803dec2aba56" alt="http://img2.tbcdn.cn/L1/461/1/736bf2ebd82f7aa8ca79281cefdc803dec2aba56"><br>点击下面的Launch automatic page generator，按照提示操作，最后成功后，就会在上面显示Your site这个信息条了。</p>
+<h4 id="3-然后访问网站"><a href="#3-然后访问网站" class="headerlink" title="(3) 然后访问网站"></a>(3) 然后访问网站</h4><p>如上操作，我们就可以访问博客网站了。我这里就是访问<a href="http://bazhuang.github.io">bazhuang.github.io</a>，内容显示出来了就ok了。</p>
+<h3 id="2、hexo搭建网站"><a href="#2、hexo搭建网站" class="headerlink" title="2、hexo搭建网站"></a>2、hexo搭建网站</h3><p>通过上述的方法创建出来的网站，如果需要增加网页内容，通过人肉写html代码显得不够高效。</p>
+<p>这里就该hexo上场了，我们可以用它来进行创建新文章，通过markdown语法来写文章，然后hexo一键发布上线。</p>
+<p><a href="http://vioren.space/archives/hexo/#more" target="_blank" rel="external">使用GitHub和Hexo搭建免费静态Blog</a>，这篇文章就是介绍了如何搭建，这里就不再重复了。文章里面没有说如何自动发布。</p>
+<h4 id="（1）配置-config-yml"><a href="#（1）配置-config-yml" class="headerlink" title="（1）配置_config.yml"></a>（1）配置_config.yml</h4><p>为了方便发布到github上，我们需要做一些配置。</p>
+<p>下面就是一个配置demo<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"># Hexo Configuration</span><br><span class="line">## Docs: https://hexo.io/docs/configuration.html</span><br><span class="line">## Source: https://github.com/hexojs/hexo/</span><br><span class="line"># Site</span><br><span class="line">title: title</span><br><span class="line">subtitle: subtitle</span><br><span class="line">description:</span><br><span class="line">author: test</span><br><span class="line">language: Chinese</span><br><span class="line">timezone: UTC</span><br><span class="line"></span><br><span class="line">url: http://demo.github.io</span><br><span class="line">root: /</span><br><span class="line">permalink: :year/:month/:day/:title/</span><br><span class="line">permalink_defaults:</span><br><span class="line"></span><br><span class="line">source_dir: source</span><br><span class="line">public_dir: public</span><br><span class="line">tag_dir: tags</span><br><span class="line">archive_dir: archives</span><br><span class="line">category_dir: categories</span><br><span class="line">code_dir: downloads/code</span><br><span class="line">i18n_dir: :lang</span><br><span class="line">skip_render:</span><br><span class="line"></span><br><span class="line">new_post_name: :title.md # File name of new posts</span><br><span class="line">default_layout: post</span><br><span class="line">titlecase: false # Transform title into titlecase</span><br><span class="line">external_link: true # Open external links in new tab</span><br><span class="line">filename_case: 0</span><br><span class="line">render_drafts: false</span><br><span class="line">post_asset_folder: false</span><br><span class="line">relative_link: false</span><br><span class="line">future: true</span><br><span class="line">highlight:</span><br><span class="line">  enable: true</span><br><span class="line">  line_number: true</span><br><span class="line">  auto_detect: false</span><br><span class="line">  tab_replace:</span><br><span class="line"></span><br><span class="line">default_category: uncategorized</span><br><span class="line">category_map:</span><br><span class="line">tag_map:</span><br><span class="line"></span><br><span class="line">date_format: YYYY-MM-DD</span><br><span class="line">time_format: HH:mm:ss</span><br><span class="line"></span><br><span class="line">per_page: 10</span><br><span class="line">pagination_dir: page</span><br><span class="line"></span><br><span class="line">theme: landscape</span><br><span class="line"></span><br><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: https://github.com/demo/demo.github.io.git</span><br></pre></td></tr></table></figure></p>
+<p>对自动发布最重要的就是最后2行的信息，type写成git。repo就是github的仓库地址。</p>
+<h4 id="（2）自动发布上线"><a href="#（2）自动发布上线" class="headerlink" title="（2）自动发布上线"></a>（2）自动发布上线</h4><p>通过hexo g可以编译源文件，然后通过hexo deploy命令可以完成最终网页文件的上传。第一次会让输入github的账号和密码。<br>发布完成之后，我们就可以刷新网站看到最新的内容了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://bazhuang.github.io/2016/05/05/hexo-build-github-blog/" data-id="cjm9c3jvy0003dxwvn6sjhjmt" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-clean_chrome_hsts_cache" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/05/05/clean_chrome_hsts_cache/" class="article-date">
+  <time datetime="2016-05-05T07:19:11.000Z" itemprop="datePublished">2016-05-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/05/05/clean_chrome_hsts_cache/">清除 chrome 的 HSTS 307 缓存</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="清除-chrome-的-HSTS-307-缓存"><a href="#清除-chrome-的-HSTS-307-缓存" class="headerlink" title="清除 chrome 的 HSTS 307 缓存"></a>清除 chrome 的 HSTS 307 缓存</h2><p>现代浏览器和网页服务器都开始支持 <a href="https://zh.wikipedia.org/wiki/HTTP%E4%B8%A5%E6%A0%BC%E4%BC%A0%E8%BE%93%E5%AE%89%E5%85%A8" target="_blank" rel="external">HSTS 功能</a>，即自动将不安全的 HTTP 请求使用 307 Internal Redirect 跳转到 HTTPS 请求。</p>
+<p>但是，用户的第一次访问还是不安全的。简单的说，在发生 307 的时候，用户可能就已经将用户名和密码暴露了。因为此时还是 HTTP 请求。</p>
+<p>而且，这个第一次还可能是每次浏览器启动的时候，也就是说，可能每天都会发生，甚至多次。</p>
+<p>所以，chrome 会自动记住每个域的 HSTS 设置。使得 HSTS 只是理论上的第一次暴露，后来就不经网页服务器返回，浏览器查询本地数据，直接伪造 HSTS 307 跳转到安全的 HTTPS，避免敏感数据的暴露。</p>
+<p>很遗憾的说，这个很贴心的功能有时会造成麻烦。也就是说，一旦网页服务器设置了 HSTS，浏览器记住了。那么，将不会再访问该域的 HTTP 了。即使是网页服务器端已经修改了相关配置。原因当然是，这个记住是浏览器本地的。</p>
+<p>还好，chrome 有暴露一些内部信息。不然就只有彻底删除浏览器才能清除。。。</p>
+<p>在地址栏打开 chrome://net-internals/#hsts 下方的 Query domain 可以查询指定的域是否有 HSTS 记录，存在的话，在 Delete domain 删除即可。</p>
+<p>转载自<a href="https://larryli.cn/2015/02/644866" target="_blank" rel="external">https://larryli.cn/2015/02/644866</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://bazhuang.github.io/2016/05/05/clean_chrome_hsts_cache/" data-id="cjm9c3jvx0002dxwv798rgxze" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/04/18/atom_install_package/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/21/ConcurrentHashMap-compare/">ConcurrentHashMap在1.7和1.8下的不同实现</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/05/hexo-build-github-blog/">利用hexo搭建github个人博客</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/05/clean_chrome_hsts_cache/">清除 chrome 的 HSTS 307 缓存</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 chenjw<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
